@@ -22,10 +22,11 @@
 // -- Layers
 enum layers {
     _DL, // Default
-    _FL, // Fn
     _SL, // Symbolic
     _APL, // APL
-    _ASL, // APL Shifted
+    _AAL, // APL (Alt)
+    _ASL, // APL (Shift + Alt)
+    _FL, // Fn
     _EL, // Extra
     _AL, // Arrow
 };
@@ -143,6 +144,31 @@ enum unicode_names {
     LOMEG,
 
     FSIGM,
+
+    // APL
+    AOME,
+    ELEM,
+    UEPS,
+    ARHO,
+    TLDD,
+    ARRU,
+    ARRD,
+    AIOT,
+    UIOT,
+    RING,
+    JOTD,
+    CIRC,
+    CIRD,
+    STAR,
+    STRD,
+    ARRL,
+    ARRR,
+    BQUO,
+    ZILD,
+    TACL,
+    TACR,
+    BEAM,
+    DIAE,
 };
 
 const uint32_t PROGMEM unicode_map[] = {
@@ -202,6 +228,31 @@ const uint32_t PROGMEM unicode_map[] = {
     [LOMEG] = 0x03C9,
 
     [FSIGM] = 0x03C2,
+
+    // APL
+    [AOME]  = 0x2375,
+    [ELEM]  = 0x220A,
+    [UEPS]  = 0x2377,
+    [ARHO]  = 0x2374,
+    [TLDD]  = 0x2368,
+    [ARRU]  = 0x2191,
+    [ARRD]  = 0x2193,
+    [AIOT]  = 0x2373,
+    [UIOT]  = 0x2378,
+    [RING]  = 0x2218,
+    [JOTD]  = 0x2364,
+    [CIRC]  = 0x25CB,
+    [CIRD]  = 0x2365,
+    [STAR]  = 0x22C6,
+    [STRD]  = 0x2363, 
+    [ARRL]  = 0x2190,
+    [ARRR]  = 0x2192,
+    [BQUO]  = 0x235E,
+    [ZILD]  = 0x236C,
+    [TACL]  = 0x22A3,
+    [TACR]  = 0x22A2,
+    [BEAM]  = 0x2336,
+    [DIAE]  = 0x00A8,
 };
 
 // TODO: Extra layout enabled with LALT
@@ -214,13 +265,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,    KC_SLSH,           KC_RSPC, \
         KC_LCTL, KC_LGUI, KC_LALT, KC_SPC,                                      TG(_AL), TD(TD_SL), TG(_APL), TT(_EL)),
 
-    [_FL] = LAYOUT_60_ansi(
-        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_PAUS, KC_TRNS, KC_TRNS, KC_DEL,  \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,  KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,          KC_TRNS, \
-        KC_LCBR, BL_INC,  BL_STEP, BL_DEC,  KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_TRNS, KC_TRNS, KC_TRNS,          KC_RCBR, \
-        KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
-
     [_SL] = LAYOUT_60_ansi(
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, XP(EN, EM), XP(NEQ, PM), KC_TRNS, \
         KC_TRNS, KC_TRNS, XP(LOMEG, UOMEG), XP(LEPSI, UEPSI), XP(LRHO, URHO), XP(LTAU, UTAU), XP(LPSI, UPSI), XP(LUPSI, UUPSI), XP(LIOTA, UIOTA), XP(LOMIC, UOMIC), XP(LPI, UPI), KC_TRNS, KC_TRNS, KC_TRNS, \
@@ -229,18 +273,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_APL] = LAYOUT_60_ansi(
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_TRNS,  KC_TRNS, MO(_AAL),          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
+
+    [_AAL] = LAYOUT_60_ansi(
+        KC_TRNS,  X(DIAE), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  KC_QUES, X(AOME), X(ELEM), X(ARHO), KC_TILD, X(ARRU), X(ARRD), X(AIOT), X(CIRC), X(STAR), X(ARRL), X(ARRR), X(TACR), \
         KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
         MO(_ASL), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
         KC_TRNS,  KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_ASL] = LAYOUT_60_ansi(
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  X(BEAM), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS, X(UEPS), KC_TRNS, X(TLDD), KC_TRNS, KC_TRNS, X(UIOT), X(CIRD), X(STRD), X(BQUO), X(ZILD), X(TACL), \
         KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
         KC_TRNS,  KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
+
+    [_FL] = LAYOUT_60_ansi(
+        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  \
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_PAUS, KC_TRNS, KC_TRNS, KC_DEL,  \
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,  KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_LCBR, BL_INC,  BL_STEP, BL_DEC,  KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_TRNS, KC_TRNS, KC_TRNS,          KC_RCBR, \
+        KC_TRNS, KC_TRNS, KC_LALT,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_EL] = LAYOUT_60_ansi(
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
