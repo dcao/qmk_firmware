@@ -19,6 +19,66 @@
 */
 #include QMK_KEYBOARD_H
 
+// -- Layers
+enum layers {
+    _DL, // Default
+    _FL, // Fn
+    _SL, // Symbolic
+};
+
+// -- Tap Dance
+enum {
+    SINGLE_TAP = 1,
+    SINGLE_HOLD = 2,
+    DOUBLE_TAP = 3,
+    DOUBLE_HOLD = 4,
+    TRIPLE_TAP = 5,
+    TRIPLE_HOLD = 6
+};
+
+int cur_dance (qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->pressed) return SINGLE_HOLD;
+        else return SINGLE_TAP;
+    }
+    else if (state->count == 2) {
+        if (state->pressed) return DOUBLE_HOLD;
+        else return DOUBLE_TAP;
+    }
+    else if (state->count == 3) {
+        if (state->interrupted || !state->pressed) return TRIPLE_TAP;
+        else return TRIPLE_HOLD;
+    }
+    else return 8;
+}
+
+static int td_state = 0;
+
+enum tap_dance_names {
+    TD_SL = 0,
+};
+
+void td_sl(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+
+    switch (td_state) {
+        case SINGLE_TAP: set_oneshot_layer(_SL, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); break;
+        case SINGLE_HOLD: layer_on(_SL); break;
+        case DOUBLE_TAP: layer_invert(_SL); break;
+    }
+}
+
+void td_sl_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_HOLD: layer_off(_SL); break;
+    }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_SL]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl, td_sl_reset)
+};
+
+// -- Unicode
 enum unicode_names {
     EN,
     EM,
@@ -145,21 +205,21 @@ const uint32_t PROGMEM unicode_map[] = {
 // TODO: Extra layout enabled with LALT
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    [0] = LAYOUT_60_ansi(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, \
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, \
-        TT(1),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  \
-        KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSPC, \
-        KC_LCTL, KC_LGUI, KC_LALT, KC_SPC,                                      TG(5),   OSL(2),   OSL(3),  TT(4)),
+    [_DL] = LAYOUT_60_ansi(
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,      KC_0,     KC_MINS, KC_EQL,  KC_BSPC, \
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,      KC_P,     KC_LBRC, KC_RBRC, KC_BSLS, \
+        TT(_FL), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,      KC_SCLN,  KC_QUOT,          KC_ENT,  \
+        KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,    KC_SLSH,           KC_RSPC, \
+        KC_LCTL, KC_LGUI, KC_LALT, KC_SPC,                                      TG(5),   TD(TD_SL), OSL(3),   TT(4)),
 
-    [1] = LAYOUT_60_ansi(
+    [_FL] = LAYOUT_60_ansi(
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  \
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_PAUS, KC_TRNS, KC_TRNS, KC_DEL,  \
         KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,  KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_TRNS, KC_TRNS,          KC_TRNS, \
         KC_LCBR, BL_INC,  BL_STEP, BL_DEC,  KC_TRNS, KC_VOLD, KC_VOLU, KC_MUTE, KC_TRNS, KC_TRNS, KC_TRNS,          KC_RCBR, \
         KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
-    [2] = LAYOUT_60_ansi(
+    [_SL] = LAYOUT_60_ansi(
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, XP(EN, EM), XP(NEQ, PM), KC_TRNS, \
         KC_TRNS, KC_TRNS, XP(LOMEG, UOMEG), XP(LEPSI, UEPSI), XP(LRHO, URHO), XP(LTAU, UTAU), XP(LPSI, UPSI), XP(LUPSI, UUPSI), XP(LIOTA, UIOTA), XP(LOMIC, UOMIC), XP(LPI, UPI), KC_TRNS, KC_TRNS, KC_TRNS, \
         UC_MOD,  XP(LALPH, UALPH), XP(LSIGM, USIGM), XP(LDELT, UDELT), XP(LPHI, UPHI), XP(LGAMM, UGAMM), XP(LETA, UETA), XP(LTHET, UTHET), XP(LKAPP, UKAPP), XP(LLAMB, ULAMB), KC_TRNS, KC_TRNS, KC_TRNS, \
