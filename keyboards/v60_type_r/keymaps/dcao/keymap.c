@@ -90,7 +90,7 @@ enum unicode_names {
     PM,
     NEQ,
     INTBNG,
-    LAMBDA,
+    APPROX,
 
     // Greek
     UALPH,
@@ -169,6 +169,48 @@ enum unicode_names {
     TACR,
     BEAM,
     DIAE,
+    AALP,
+    CEIL,
+    FLOR,
+    MCRN,
+    DEC,
+    INC,
+    SUBS,
+    SPER,
+    INTR,
+    UNIO,
+    TUP,
+    TDWN,
+    DLTL,
+    SMLA,
+    CMBA,
+    UDEL,
+    QDIV,
+    DIV,
+    MULT,
+    AND,
+    OR,
+    GEQ,
+    LEQ,
+    DELD,
+    DELU,
+    CRLV,
+    CRLD,
+    CRLH,
+    CRST,
+    ORTL,
+    ANTL,
+    DASL,
+    DABK,
+    QCOL,
+    QUAD,
+    QSML,
+    TCRU,
+    TCRD,
+    EQDF,
+    NEQD,
+    DIVS,
+    VERT,
 };
 
 const uint32_t PROGMEM unicode_map[] = {
@@ -177,6 +219,7 @@ const uint32_t PROGMEM unicode_map[] = {
     [PM]      = 0x00B1,
     [NEQ]     = 0x2260,
     [INTBNG]  = 0x203D,
+    [APPROX]  = 0x2248,
 
     // greek letters
     [UALPH] = 0x0391,
@@ -253,6 +296,48 @@ const uint32_t PROGMEM unicode_map[] = {
     [TACR]  = 0x22A2,
     [BEAM]  = 0x2336,
     [DIAE]  = 0x00A8,
+    [AALP]  = 0x237A,
+    [CEIL]  = 0x2308,
+    [FLOR]  = 0x230A,
+    [MCRN]  = 0x00AF,
+    [DEC]   = 0x2207,
+    [INC]   = 0x2206,
+    [SUBS]  = 0x2282,
+    [SPER]  = 0x2283,
+    [INTR]  = 0x2229,
+    [UNIO]  = 0x222A,
+    [TUP]   = 0x22A5,
+    [TDWN]  = 0x22A4,
+    [DLTL]  = 0x236B,
+    [SMLA]  = 0x235D,
+    [CMBA]  = 0x236A,
+    [UDEL]  = 0x2359,
+    [QDIV]  = 0x2339,
+    [DIV]   = 0x00F7,
+    [MULT]  = 0x00D7,
+    [AND]   = 0x2227,
+    [OR]    = 0x2228,
+    [GEQ]   = 0x2265,
+    [LEQ]   = 0x2264,
+    [DELD]  = 0x2352,
+    [DELU]  = 0x234B,
+    [CRLV]  = 0x233D,
+    [CRLD]  = 0x2349,
+    [CRLH]  = 0x2296,
+    [CRST]  = 0x235F,
+    [ORTL]  = 0x2371,
+    [ANTL]  = 0x2372,
+    [DASL]  = 0x233F,
+    [DABK]  = 0x2340,
+    [QCOL]  = 0x2360,
+    [QUAD]  = 0x2395,
+    [QSML]  = 0x2337,
+    [TCRU]  = 0x234E,
+    [TCRD]  = 0x2355,
+    [EQDF]  = 0x2261,
+    [NEQD]  = 0x2262,
+    [DIVS]  = 0x2223,
+    [VERT]  = 0x2502,
 };
 
 // TODO: Extra layout enabled with LALT
@@ -261,14 +346,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_DL] = LAYOUT_60_ansi(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,      KC_0,     KC_MINS, KC_EQL,  KC_BSPC, \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,      KC_P,     KC_LBRC, KC_RBRC, KC_BSLS, \
-        TT(_FL), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,      KC_SCLN,  KC_QUOT,          KC_ENT,  \
+        TT(_FL), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,     KC_SCLN,  KC_QUOT,          KC_ENT,  \
         KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,    KC_SLSH,           KC_RSPC, \
         KC_LCTL, KC_LGUI, KC_LALT, KC_SPC,                                      TG(_AL), TD(TD_SL), TG(_APL), TT(_EL)),
 
     [_SL] = LAYOUT_60_ansi(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, XP(EN, EM), XP(NEQ, PM), KC_TRNS, \
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, XP(EN, EM), XP(APPROX, PM), KC_TRNS, \
         KC_TRNS, KC_TRNS, XP(LOMEG, UOMEG), XP(LEPSI, UEPSI), XP(LRHO, URHO), XP(LTAU, UTAU), XP(LPSI, UPSI), XP(LUPSI, UUPSI), XP(LIOTA, UIOTA), XP(LOMIC, UOMIC), XP(LPI, UPI), KC_TRNS, KC_TRNS, KC_TRNS, \
-        UC_MOD,  XP(LALPH, UALPH), XP(LSIGM, USIGM), XP(LDELT, UDELT), XP(LPHI, UPHI), XP(LGAMM, UGAMM), XP(LETA, UETA), XP(LTHET, UTHET), XP(LKAPP, UKAPP), XP(LLAMB, ULAMB), KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS, XP(LALPH, UALPH), XP(LSIGM, USIGM), XP(LDELT, UDELT), XP(LPHI, UPHI), XP(LGAMM, UGAMM), XP(LETA, UETA), XP(LTHET, UTHET), XP(LKAPP, UKAPP), XP(LLAMB, ULAMB), KC_TRNS, KC_TRNS, UC_MOD, \
         KC_TRNS, XP(LZETA, UZETA), XP(LXI, UXI), XP(LCHI, UCHI), XP(FSIGM, USIGM), XP(LBETA, UBETA), XP(LNU, UNU), XP(LMU, UMU), KC_TRNS, KC_TRNS, X(INTBNG), KC_TRNS, \
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
@@ -280,17 +365,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,  KC_TRNS, MO(_AAL),          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_AAL] = LAYOUT_60_ansi(
-        KC_TRNS,  X(DIAE), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  X(DIAE), X(MCRN), KC_LT,   X(LEQ),  KC_EQL,  X(GEQ),  KC_GT,   X(NEQ),  X(OR),   X(AND),  X(MULT), X(DIV),  KC_TRNS, \
         KC_TRNS,  KC_QUES, X(AOME), X(ELEM), X(ARHO), KC_TILD, X(ARRU), X(ARRD), X(AIOT), X(CIRC), X(STAR), X(ARRL), X(ARRR), X(TACR), \
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
-        MO(_ASL), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_TRNS,  X(AALP), X(CEIL), X(FLOR), KC_UNDS, X(DEC),  X(INC),  X(RING), X(DIVS), X(QUAD), X(TCRU), X(TCRD),          KC_TRNS, \
+        MO(_ASL), X(SUBS), X(SPER), X(INTR), X(UNIO), X(TUP),  X(TDWN), X(VERT), X(SMLA), X(DABK), X(DASL),          KC_TRNS, \
         KC_TRNS,  KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_ASL] = LAYOUT_60_ansi(
-        KC_TRNS,  X(BEAM), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+        KC_TRNS,  X(BEAM), X(DLTL), X(DELD), X(DELU), X(CRLV), X(CRLD), X(CRLH), X(CRST), X(ORTL), X(ANTL), KC_EXLM, X(QDIV), KC_TRNS, \
         KC_TRNS,  KC_TRNS, KC_TRNS, X(UEPS), KC_TRNS, X(TLDD), KC_TRNS, KC_TRNS, X(UIOT), X(CIRD), X(STRD), X(BQUO), X(ZILD), X(TACL), \
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, X(JOTD), KC_TRNS, X(QSML), X(EQDF), X(NEQD),          KC_TRNS, \
+        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, X(CMBA), X(UDEL), X(QCOL),          KC_TRNS, \
         KC_TRNS,  KC_TRNS, KC_TRNS,          KC_TRNS,                                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
 
     [_FL] = LAYOUT_60_ansi(
